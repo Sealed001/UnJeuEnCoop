@@ -4,24 +4,30 @@ import pygame as py
 from routeManager import RouteManager
 from Routes import HomeScreen
 
-# Vars
-on = True
-players = []
-windowProperties = {}
+class Game():
+	on = True
+	windowProperties = {}
+	screen = None
+	routeManager = None
 
-# Window Properties
-with open("window.yml", 'r') as file:
-	windowProperties = yaml.safe_load(file)
-screen = py.display.set_mode((windowProperties["width"], windowProperties["height"]))
-py.display.set_caption(f"{windowProperties['title']} v{windowProperties['version']}")
+	def __init__(self):
+		# Window Properties
+		with open("window.yml", 'r') as file:
+			self.windowProperties = yaml.safe_load(file)
+		self.screen = py.display.set_mode((self.windowProperties["width"], self.windowProperties["height"]))
+		py.display.set_caption(f"{self.windowProperties['title']} v{self.windowProperties['version']}")
 
-# Game
-routeManager = RouteManager(routes={"home": HomeScreen}, defaultRoute="home")
-py.init()
-while on:
+		# Game
+		self.routeManager = RouteManager(routes={"home": HomeScreen}, defaultRoute="home")
+		py.init()
+
+game = Game()
+
+while game.on:
 	for event in py.event.get():
 		if event.type == py.QUIT:
-			on = False
-	routeManager.update()
-	routeManager.draw(screen)
+			game.on = False
+	game.routeManager.update(game)
+	game.routeManager.draw(game.screen)
+
 py.quit()

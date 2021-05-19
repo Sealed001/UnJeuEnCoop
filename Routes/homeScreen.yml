@@ -9,6 +9,13 @@ alphaClip:
 
 buttons:
   gap: 20
+  selector:
+    color: [255, 255, 255]
+    width: 6
+    cornerRadius: 25
+    positionSpeed: 1300
+    scaleSpeed: 1500
+    buttonGap: 5
   local:
     color:
       background: [142, 68, 173]

@@ -49,11 +49,11 @@ class RouteManager:
 		else:
 			raise TypeError("You really want to go nowhere ?!")
 
-	def update(self):
+	def update(self, game):
 		dt = py.time.get_ticks() / 1000 - self._time
 		self._time = py.time.get_ticks() / 1000
 		if (callable(getattr(self._route, "update", None))):
-			self._route.update(dt)
+			self._route.update(dt, game)
 
 		if (self.showFps):
 			print(f"{int(1/dt)} fps")
