@@ -1,1 +1,27 @@
-backgroundSpeed: 40
+background:
+  color: [34, 32, 52]
+  speed: 40
+
+alphaClip:
+  height: 100
+  color: [0, 0, 0]
+  alpha: 180
+
+buttons:
+  gap: 20
+  local:
+    color:
+      background: [142, 68, 173]
+      iconBackground: [155, 89, 182]
+  options:
+    color:
+      background: [243, 156, 18]
+      iconBackground: [241, 196, 15]
+  online:
+    color:
+      background: [41, 128, 185]
+      iconBackground: [52, 152, 219]
+  quit:
+    color:
+      background: [192, 57, 43]
+      iconBackground: [231, 76, 60]

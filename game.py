@@ -19,6 +19,9 @@ py.display.set_caption(f"{windowProperties['title']} v{windowProperties['version
 routeManager = RouteManager(routes={"home": HomeScreen}, defaultRoute="home")
 py.init()
 while on:
+	for event in py.event.get():
+		if event.type == py.QUIT:
+			on = False
 	routeManager.update()
 	routeManager.draw(screen)
 py.quit()

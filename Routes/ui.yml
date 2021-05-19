@@ -1,0 +1,4 @@
+bigButton:
+  roundCornerRadius: 20
+  iconBackgroundGap: 15
+  iconGap: 40
