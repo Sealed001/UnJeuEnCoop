@@ -4,8 +4,8 @@ class RouteManager:
 	_routes = {}
 	_routeName = ""
 	_route = None
-	_clock = None
 	_time = 0
+	showFps = False
 
 	def __init__(self, routes: dict = False, defaultRoute: str = False):
 		# Set routes
@@ -17,21 +17,21 @@ class RouteManager:
 			raise TypeError("Routes is empty")
 		
 		# Set default route
+		routeName = ""
 		if (defaultRoute == False):
 			print(f"Default route is not set, redirecting to {self._routeName}")
-			self._routeName = self._routes.keys()[0]
+			routeName = self._routes.keys()[0]
 		elif (self._routeExist(defaultRoute)):
-			self._routeName = defaultRoute
+			routeName = defaultRoute
 		else:
 			print(f"Incorrect default route, redirecting to {self._routeName}")
-			self._routeName = self._routes.keys()[0]
+			routeName = self._routes.keys()[0]
 		
 		# Initialize default route
-		self.go(self._routeName)
+		self.go(routeName)
 
 		# Initialize clock
-		self._clock = py.time.Clock()
-		self._time = self._clock.get_time()
+		self._time = py.time.get_ticks() / 1000
 
 	def _routeExist(self, route: str):
 		return (route in self._routes.keys())
@@ -50,10 +50,13 @@ class RouteManager:
 			raise TypeError("You really want to go nowhere ?!")
 
 	def update(self):
-		dt = self._clock.get_time() - self._time
-		self._time = self._clock.get_time()
+		dt = py.time.get_ticks() / 1000 - self._time
+		self._time = py.time.get_ticks() / 1000
 		if (callable(getattr(self._route, "update", None))):
 			self._route.update(dt)
+
+		if (self.showFps):
+			print(f"{int(1/dt)} fps")
 
 	def draw(self, screen):
 		if (callable(getattr(self._route, "draw", None))):
