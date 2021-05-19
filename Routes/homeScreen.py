@@ -146,7 +146,7 @@ class HomeScreen:
 		screen.fill(tuple(self._properties["background"]["color"]))
 		for x in range(-self._images["backgroundTileGreen"].get_width(), w + self._images["backgroundTileGreen"].get_width(), self._images["backgroundTileGreen"].get_width()):
 			for y in range(-self._images["backgroundTileGreen"].get_height(), h + self._images["backgroundTileGreen"].get_height(), self._images["backgroundTileGreen"].get_height()):
-				screen.blit(self._images["backgroundTileGreen"], (x + self._vars["background"]["offset"], y + self._vars["background"]["offset"]))
+				screen.blit(self._images["backgroundTileGreen"], (x - self._vars["background"]["offset"], y + self._vars["background"]["offset"]))
 		
 		# Alpha Clip Surface
 		alphaClipSurface = py.Surface((w, self._properties["alphaClip"]["height"]))
