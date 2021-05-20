@@ -90,6 +90,10 @@ class HomeScreen:
 		if (keysPressed[py.K_RETURN]):
 			if (self._vars["buttons"]["selected"] == "quit"):
 				game.on = False
+			elif (self._vars["buttons"]["selected"] == "local"):
+				game.routeManager.go("localCharacterSelection")
+			elif (self._vars["buttons"]["selected"] == "options"):
+				game.routeManager.go("options")
 
 		# Selector Target Size & Position
 		w, h = py.display.get_surface().get_size()
