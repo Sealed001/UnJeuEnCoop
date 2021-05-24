@@ -3,23 +3,24 @@ from Routes.localCharacterSelection import LocalCharacterSelection
 import yaml
 import pygame as py
 from routeManager import RouteManager
+from Libs import transition
 from Routes import HomeScreen, LocalCharacterSelection, Options
 
 class Game():
 	on = True
-	windowProperties = {}
+	gameProperties = {}
 	screen = None
 	routeManager = None
 
 	def __init__(self):
 		# Window Properties
 		with open("game.yml", 'r') as file:
-			self.windowProperties = yaml.safe_load(file)
-		self.screen = py.display.set_mode((self.windowProperties["width"], self.windowProperties["height"]))
-		py.display.set_caption(f"{self.windowProperties['title']} v{self.windowProperties['version']}")
+			self.gameProperties = yaml.safe_load(file)
+		self.screen = py.display.set_mode((self.gameProperties["width"], self.gameProperties["height"]))
+		py.display.set_caption(f"{self.gameProperties['title']} v{self.gameProperties['version']}")
 
 		# Game
-		self.routeManager = RouteManager(routes={"homeScreen": HomeScreen, "localCharacterSelection": LocalCharacterSelection, "options": Options}, defaultRoute="homeScreen")
+		self.routeManager = RouteManager(transition.GrowingDotsTransition(easingFunc=transition.EASEINOUTCUBIC), self.gameProperties["transitionDuration"], routes={"homeScreen": HomeScreen, "localCharacterSelection": LocalCharacterSelection, "options": Options}, defaultRoute="homeScreen")
 		py.init()
 
 game = Game()

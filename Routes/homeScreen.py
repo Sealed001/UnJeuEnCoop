@@ -1,7 +1,7 @@
 import os
 import yaml
 import pygame as py
-from .ui import BigButton
+from Libs import ui
 
 class HomeScreen:
 	_properties = {}
@@ -143,7 +143,7 @@ class HomeScreen:
 			hasMoved = True
 		self._vars["buttons"]["selector"]["isMoving"] = hasMoved
 
-	def draw(self, screen):
+	def draw(self, screen, transition, inTransition, timeTransition):
 		w, h = py.display.get_surface().get_size()
 
 		# Background
@@ -169,21 +169,24 @@ class HomeScreen:
 		# Local Button
 		buttonX = self._properties["buttons"]["gap"]
 		buttonY = self._properties["alphaClip"]["height"] + self._properties["buttons"]["gap"]
-		screen.blit(BigButton(buttonWidth, buttonHeight, tuple(self._properties["buttons"]["local"]["color"]["background"]), tuple(self._properties["buttons"]["local"]["color"]["iconBackground"]), self._images["localIcon"], self._images["localText"]), (buttonX, buttonY))
+		screen.blit(ui.BigButton(buttonWidth, buttonHeight, tuple(self._properties["buttons"]["local"]["color"]["background"]), tuple(self._properties["buttons"]["local"]["color"]["iconBackground"]), self._images["localIcon"], self._images["localText"]), (buttonX, buttonY))
 
 		# Options Button
 		buttonX = (w / 2) + self._properties["buttons"]["gap"]
 		buttonY = self._properties["alphaClip"]["height"] + self._properties["buttons"]["gap"]
-		screen.blit(BigButton(buttonWidth, buttonHeight, tuple(self._properties["buttons"]["options"]["color"]["background"]), tuple(self._properties["buttons"]["options"]["color"]["iconBackground"]), self._images["optionsIcon"], self._images["optionsText"]), (buttonX, buttonY))
+		screen.blit(ui.BigButton(buttonWidth, buttonHeight, tuple(self._properties["buttons"]["options"]["color"]["background"]), tuple(self._properties["buttons"]["options"]["color"]["iconBackground"]), self._images["optionsIcon"], self._images["optionsText"]), (buttonX, buttonY))
 
 		# Online Button
 		buttonX = self._properties["buttons"]["gap"]
 		buttonY = self._properties["alphaClip"]["height"] + ((h - self._properties["alphaClip"]["height"] * 2) / 2) + self._properties["buttons"]["gap"]
-		screen.blit(BigButton(buttonWidth, buttonHeight, tuple(self._properties["buttons"]["online"]["color"]["background"]), tuple(self._properties["buttons"]["online"]["color"]["iconBackground"]), self._images["onlineIcon"], self._images["onlineText"]), (buttonX, buttonY))
+		screen.blit(ui.BigButton(buttonWidth, buttonHeight, tuple(self._properties["buttons"]["online"]["color"]["background"]), tuple(self._properties["buttons"]["online"]["color"]["iconBackground"]), self._images["onlineIcon"], self._images["onlineText"]), (buttonX, buttonY))
 
 		# Quit Button
 		buttonX = (w / 2) + self._properties["buttons"]["gap"]
 		buttonY = self._properties["alphaClip"]["height"] + ((h - self._properties["alphaClip"]["height"] * 2) / 2) + self._properties["buttons"]["gap"]
-		screen.blit(BigButton(buttonWidth, buttonHeight, tuple(self._properties["buttons"]["quit"]["color"]["background"]), tuple(self._properties["buttons"]["quit"]["color"]["iconBackground"]), self._images["quitIcon"], self._images["quitText"]), (buttonX, buttonY))
+		screen.blit(ui.BigButton(buttonWidth, buttonHeight, tuple(self._properties["buttons"]["quit"]["color"]["background"]), tuple(self._properties["buttons"]["quit"]["color"]["iconBackground"]), self._images["quitIcon"], self._images["quitText"]), (buttonX, buttonY))
+
+		if (inTransition):
+			screen.blit(transition.getSurface(w, h, timeTransition), (0, 0))
 
 		py.display.flip()

@@ -2,3 +2,4 @@ width: 1300
 height: 800
 title: Un super Jeu
 version: 1.0.0
+transitionDuration: 5

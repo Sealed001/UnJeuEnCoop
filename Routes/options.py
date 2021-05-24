@@ -127,7 +127,7 @@ class Options:
 		# 	hasMoved = True
 		# self._vars["buttons"]["selector"]["isMoving"] = hasMoved
 
-	def draw(self, screen):
+	def draw(self, screen, transition, inTransition, timeTransition):
 		w, h = py.display.get_surface().get_size()
 
 		# Background
@@ -169,5 +169,8 @@ class Options:
 		#buttonX = (w / 2) + self._properties["buttons"]["gap"]
 		#buttonY = self._properties["alphaClip"]["height"] + ((h - self._properties["alphaClip"]["height"] * 2) / 2) + self._properties["buttons"]["gap"]
 		#screen.blit(BigButton(buttonWidth, buttonHeight, tuple(self._properties["buttons"]["quit"]["color"]["background"]), tuple(self._properties["buttons"]["quit"]["color"]["iconBackground"]), self._images["quitIcon"], self._images["quitText"]), (buttonX, buttonY))
+
+		if (inTransition):
+			screen.blit(transition.getSurface(w, h, timeTransition), (0, 0))
 
 		py.display.flip()
