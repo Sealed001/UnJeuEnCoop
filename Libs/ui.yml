@@ -2,3 +2,6 @@ bigButton:
   roundCornerRadius: 20
   iconBackgroundGap: 15
   iconGap: 40
+characterContainer:
+  roundCornerRadius: 15
+  color: [96, 96, 96]

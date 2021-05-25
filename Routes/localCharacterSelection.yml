@@ -6,3 +6,8 @@ alphaClip:
   height: 100
   color: [0, 0, 0]
   alpha: 180
+
+characterContainerList:
+  minSize: 180
+  maxSize: 250
+  space: 10

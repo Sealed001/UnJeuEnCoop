@@ -26,3 +26,17 @@ def BigButton(width, height, backgroundColor, backgroundColorIcon, icon, text):
 		btnSurface.blit(textScaled, (textX, textY))
 
 	return btnSurface
+
+def CharacterContainer(width, height):
+	characterContainerSurface = py.Surface((width, height), py.SRCALPHA, 32)
+
+	py.draw.rect(characterContainerSurface, tuple(uiProperties["characterContainer"]["color"]), py.Rect(0, 0, width, height), 0, uiProperties["characterContainer"]["roundCornerRadius"])
+
+	return characterContainerSurface
+
+def CharacterContainerSelector(width, height):
+	characterContainerSurface = py.Surface((width, height), py.SRCALPHA, 32)
+
+	py.draw.rect(characterContainerSurface, (255, 255, 255), py.Rect(0, 0, width, height), 3, uiProperties["characterContainer"]["roundCornerRadius"])
+
+	return characterContainerSurface

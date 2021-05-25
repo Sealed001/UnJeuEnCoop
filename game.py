@@ -16,7 +16,7 @@ class Game():
 		# Window Properties
 		with open("game.yml", 'r') as file:
 			self.gameProperties = yaml.safe_load(file)
-		self.screen = py.display.set_mode((self.gameProperties["width"], self.gameProperties["height"]))
+		self.screen = py.display.set_mode((self.gameProperties["width"], self.gameProperties["height"]), py.RESIZABLE)
 		py.display.set_caption(f"{self.gameProperties['title']} v{self.gameProperties['version']}")
 
 		# Game
@@ -29,6 +29,7 @@ while game.on:
 	for event in py.event.get():
 		if event.type == py.QUIT:
 			game.on = False
+	
 	game.routeManager.update(game)
 	game.routeManager.draw(game.screen)
 
