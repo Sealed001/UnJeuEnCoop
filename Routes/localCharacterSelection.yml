@@ -12,3 +12,4 @@ characterContainerList:
   maxSize: 250
   space: 20
   textSpace: 10
+  previewSpace: 10

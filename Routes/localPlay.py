@@ -3,43 +3,23 @@ import yaml
 import pygame as py
 from Levels import levels
 
-class Options:
+class LocalPlay:
 	_properties = {}
 	_images = {}
 	_vars = {
-		"background":{
-			"offset": 0
-		},
-		"buttons": {
-			"selected": "local",
-			"selector": {
-				"isMoving": True,
-				"position": {
-					"x": 0,
-					"y": 0
-				},
-				"targetPosition": {
-					"x": 0,
-					"y": 0
-				},
-				"size": {
-					"width": 0,
-					"height": 0
-				},
-				"targetSize": {
-					"width": 0,
-					"height": 0
-				}
-			}
-		}
+		"players": [],
+		"level": None
 	}
 
 	def __init__(self, parameters):
 		with open(f"{os.path.dirname(__file__)}/options.yml", 'r') as file:
 			self._properties = yaml.safe_load(file)
 		
+		self._vars["players"] = parameters["players"]
+		self._vars["level"] = parameters["level"]
+		print(self._vars["level"]["name"])
 		# Background Tile
-		self._images["backgroundTileGreen"] = py.image.load(f"{os.path.dirname(__file__)}/../Assets/Backgrounds/backgroundTileGreen.png")
+		#self._images["backgroundTileGreen"] = py.image.load(f"{os.path.dirname(__file__)}/../Assets/Backgrounds/backgroundTileGreen.png")
 
 		# Selector
 		#w, h = py.display.get_surface().get_size()
@@ -49,9 +29,10 @@ class Options:
 		#self._vars["buttons"]["selector"]["position"]["y"] = (h - self._vars["buttons"]["selector"]["size"]["height"]) / 2
 
 	def update(self, dt, game):
-		self._vars["background"]["offset"] += dt * self._properties["background"]["speed"]
-		if (self._vars["background"]["offset"] >= self._images["backgroundTileGreen"].get_width()):
-			self._vars["background"]["offset"] -= self._images["backgroundTileGreen"].get_width()
+		pass
+		#self._vars["background"]["offset"] += dt * self._properties["background"]["speed"]
+		#if (self._vars["background"]["offset"] >= self._images["backgroundTileGreen"].get_width()):
+		#	self._vars["background"]["offset"] -= self._images["backgroundTileGreen"].get_width()
 		
 		#keysPressed = py.key.get_pressed()
 		#if (not(self._vars["buttons"]["selector"]["isMoving"])):
@@ -131,17 +112,17 @@ class Options:
 		w, h = py.display.get_surface().get_size()
 
 		# Background
-		screen.fill(tuple(self._properties["background"]["color"]))
-		for x in range(-self._images["backgroundTileGreen"].get_width(), w + self._images["backgroundTileGreen"].get_width(), self._images["backgroundTileGreen"].get_width()):
-			for y in range(-self._images["backgroundTileGreen"].get_height(), h + self._images["backgroundTileGreen"].get_height(), self._images["backgroundTileGreen"].get_height()):
-				screen.blit(self._images["backgroundTileGreen"], (x - self._vars["background"]["offset"], y + self._vars["background"]["offset"]))
+		#screen.fill(tuple(self._properties["background"]["color"]))
+		#for x in range(-self._images["backgroundTileGreen"].get_width(), w + self._images["backgroundTileGreen"].get_width(), self._images["backgroundTileGreen"].get_width()):
+		#	for y in range(-self._images["backgroundTileGreen"].get_height(), h + self._images["backgroundTileGreen"].get_height(), self._images["backgroundTileGreen"].get_height()):
+		#		screen.blit(self._images["backgroundTileGreen"], (x - self._vars["background"]["offset"], y + self._vars["background"]["offset"]))
 		
 		# Alpha Clip Surface
-		alphaClipSurface = py.Surface((w, self._properties["alphaClip"]["height"]))
-		alphaClipSurface.set_alpha(self._properties["alphaClip"]["alpha"])
-		alphaClipSurface.fill(tuple(self._properties["alphaClip"]["color"]))
-		screen.blit(alphaClipSurface, (0, 0)) # Top alpha clip surface
-		screen.blit(alphaClipSurface, (0, h - self._properties["alphaClip"]["height"])) # Bottom alpha clip surface
+		#alphaClipSurface = py.Surface((w, self._properties["alphaClip"]["height"]))
+		#alphaClipSurface.set_alpha(self._properties["alphaClip"]["alpha"])
+		#alphaClipSurface.fill(tuple(self._properties["alphaClip"]["color"]))
+		#screen.blit(alphaClipSurface, (0, 0)) # Top alpha clip surface
+		#screen.blit(alphaClipSurface, (0, h - self._properties["alphaClip"]["height"])) # Bottom alpha clip surface
 
 		# Buttons
 		#buttonWidth = (w / 2) - self._properties["buttons"]["gap"] * 2

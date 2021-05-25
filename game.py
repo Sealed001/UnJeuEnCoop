@@ -4,7 +4,7 @@ import yaml
 import pygame as py
 from routeManager import RouteManager
 from Libs import transition
-from Routes import HomeScreen, LocalCharacterSelection, Options
+from Routes import HomeScreen, LocalCharacterSelection, Options, LocalPlay
 
 class Game():
 	on = True
@@ -20,7 +20,7 @@ class Game():
 		py.display.set_caption(f"{self.gameProperties['title']} v{self.gameProperties['version']}")
 
 		# Game
-		self.routeManager = RouteManager(transition.GrowingDotsTransition(easingFunc=transition.EASEINOUTCUBIC), self.gameProperties["transitionDuration"], routes={"homeScreen": HomeScreen, "localCharacterSelection": LocalCharacterSelection, "options": Options}, defaultRoute="homeScreen")
+		self.routeManager = RouteManager(transition.GrowingDotsTransition(easingFunc=transition.EASEINOUTCUBIC), self.gameProperties["transitionDuration"], routes={"homeScreen": HomeScreen, "localCharacterSelection": LocalCharacterSelection, "options": Options, "localPlay": LocalPlay}, defaultRoute="homeScreen")
 		py.init()
 
 game = Game()
