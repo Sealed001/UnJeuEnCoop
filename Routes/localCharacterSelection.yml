@@ -10,4 +10,5 @@ alphaClip:
 characterContainerList:
   minSize: 180
   maxSize: 250
-  space: 10
+  space: 20
+  textSpace: 10

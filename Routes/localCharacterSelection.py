@@ -1,18 +1,20 @@
 import os
 import yaml
 import pygame as py
+import pygame.freetype as ft
 from Libs import ui
 
 class LocalCharacterSelection:
 	_properties = {}
 	_images = {}
+	_font = None
 	_vars = {
 		"background":{
 			"offset": 0
 		},
 		"scrollY": 0,
 		"targetScrollY": 0,
-		"characters": [i for i in range( 30 )],
+		"characters": [{"name": f"Character {i}"} for i in range( 30 )],
 		"characterSelector": {
 			"timer": 0,
 			"selectedCharacter": 0,
@@ -27,6 +29,7 @@ class LocalCharacterSelection:
 		
 		# Background Tile
 		self._images["backgroundTileGreen"] = py.image.load(f"{os.path.dirname(__file__)}/../Assets/Backgrounds/backgroundTileGreen.png")
+		self._font = ft.Font(f"{os.path.dirname(__file__)}/../Assets/Texts/dpcomic.ttf", 24)
 
 	def update(self, dt, game):
 		self._vars["background"]["offset"] += dt * self._properties["background"]["speed"]
@@ -81,6 +84,9 @@ class LocalCharacterSelection:
 
 		# Character Selector
 		screen.blit(ui.CharacterContainerSelector(self._vars["characterSelector"]["characterContainerSize"], self._vars["characterSelector"]["characterContainerSize"]), ((self._vars["characterSelector"]["selectedCharacter"] % self._vars["characterSelector"]["charactersPerLine"]) * (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) + self._properties["characterContainerList"]["space"], self._properties["alphaClip"]["height"] + self._vars["scrollY"] + self._properties["characterContainerList"]["space"] + (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) * (self._vars["characterSelector"]["selectedCharacter"]//self._vars["characterSelector"]["charactersPerLine"])))
+
+		textSurface, textRect = self._font.render(self._vars["characters"][self._vars["characterSelector"]["selectedCharacter"]]["name"], (255, 255, 255))
+		screen.blit(textSurface, ( int((self._vars["characterSelector"]["selectedCharacter"] % self._vars["characterSelector"]["charactersPerLine"]) * (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) + self._properties["characterContainerList"]["space"] + self._vars["characterSelector"]["characterContainerSize"] / 2 - textRect.width / 2), int(self._properties["alphaClip"]["height"] + self._vars["scrollY"] + self._properties["characterContainerList"]["space"] + self._vars["characterSelector"]["characterContainerSize"] + (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) * (self._vars["characterSelector"]["selectedCharacter"]//self._vars["characterSelector"]["charactersPerLine"]) + self._properties["characterContainerList"]["textSpace"])))
 
 		# Alpha Clip Surface
 		alphaClipSurface = py.Surface((w, self._properties["alphaClip"]["height"]))
