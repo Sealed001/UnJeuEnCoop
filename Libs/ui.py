@@ -27,16 +27,34 @@ def BigButton(width, height, backgroundColor, backgroundColorIcon, icon, text):
 
 	return btnSurface
 
-def CharacterContainer(width, height):
+def CharacterContainer(width, height, selected = False, preview = None):
 	characterContainerSurface = py.Surface((width, height), py.SRCALPHA, 32)
 
 	py.draw.rect(characterContainerSurface, tuple(uiProperties["characterContainer"]["color"]), py.Rect(0, 0, width, height), 0, uiProperties["characterContainer"]["roundCornerRadius"])
 
+	if (preview != None):
+		characterContainerSurface.blit(py.transform.scale(preview, (width - uiProperties["characterContainer"]["previewSpace"] * 2, height - uiProperties["characterContainer"]["previewSpace"] * 2)), (uiProperties["characterContainer"]["previewSpace"], uiProperties["characterContainer"]["previewSpace"]))
+
+	if (selected):
+		py.draw.rect(characterContainerSurface, (255, 255, 255), py.Rect(0, 0, width, height), 3, uiProperties["characterContainer"]["roundCornerRadius"])
+
 	return characterContainerSurface
 
-def CharacterContainerSelector(width, height):
-	characterContainerSurface = py.Surface((width, height), py.SRCALPHA, 32)
+def LevelContainer(height, selected = False, preview = None):
+	width = None
+	if (preview != None):
+		width = height * preview.get_width() / preview.get_height()
+	else:
+		width = height
 
-	py.draw.rect(characterContainerSurface, (255, 255, 255), py.Rect(0, 0, width, height), 3, uiProperties["characterContainer"]["roundCornerRadius"])
+	levelContainerSurface = py.Surface((width, height), py.SRCALPHA, 32)
+	if (preview != None):
+		scaledPreview = py.transform.scale(preview, ( int(width), int(height)))
+		levelContainerSurface.blit(scaledPreview, ((width - scaledPreview.get_width()) / 2, (height - scaledPreview.get_height()) / 2))
+	else:
+		py.draw.rect(levelContainerSurface, tuple(uiProperties["levelContainer"]["color"]), py.Rect(0, 0, width, height))
 
-	return characterContainerSurface
+	if (selected):
+		py.draw.rect(levelContainerSurface, (255, 255, 255), py.Rect(0, 0, width, height), 3)
+
+	return levelContainerSurface

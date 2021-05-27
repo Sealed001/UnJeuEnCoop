@@ -4,7 +4,6 @@ import pygame as py
 import pygame.freetype as ft
 from Libs import ui
 from Characters import characters
-from Levels import levels
 
 class LocalCharacterSelection:
 	_properties = {}
@@ -28,6 +27,8 @@ class LocalCharacterSelection:
 	}
 
 	def __init__(self, parameters):
+		if (parameters != None):
+			self._vars["players"] = parameters["players"]
 		with open(f"{os.path.dirname(__file__)}/localCharacterSelection.yml", 'r') as file:
 			self._properties = yaml.safe_load(file)
 		
@@ -43,7 +44,7 @@ class LocalCharacterSelection:
 		if (None in self._vars["players"]):
 			self._vars["message"] = f"Player {self._vars['players'].index(None) + 1}, please select a character with enter"
 		else:
-			self._vars["message"] = "Press enter to launch the game"
+			self._vars["message"] = "Press enter"
 
 		w, h = py.display.get_surface().get_size()
 		self._vars["characterSelector"]["charactersPerLine"] = int(w / (self._properties["characterContainerList"]["minSize"] + self._properties["characterContainerList"]["space"] * 2))
@@ -73,7 +74,7 @@ class LocalCharacterSelection:
 				if (None in self._vars['players']):
 					self._vars['players'][self._vars['players'].index(None)] = self._vars["characters"][self._vars["characterSelector"]["selectedCharacter"]]
 				else:
-					game.routeManager.go("localPlay", parameters={"players": self._vars['players'], "level": levels[0]})
+					game.routeManager.go("localLevelSelection", parameters={"players": self._vars['players']})
 				self._vars["characterSelector"]["timer"] = 0
 			if (keysPressed[py.K_BACKSPACE]):
 				if (self._vars['players'][0] != None):
@@ -106,13 +107,12 @@ class LocalCharacterSelection:
 		# List Characters
 		for elI in range(len(self._vars["characters"])):
 			el = self._vars["characters"][elI]
-			screen.blit(ui.CharacterContainer(self._vars["characterSelector"]["characterContainerSize"], self._vars["characterSelector"]["characterContainerSize"]), ((elI % self._vars["characterSelector"]["charactersPerLine"]) * (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) + self._properties["characterContainerList"]["space"], self._properties["alphaClip"]["height"] + self._vars["scrollY"] + self._properties["characterContainerList"]["space"] + (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) * (elI//self._vars["characterSelector"]["charactersPerLine"])))
 			if ("preview" in el):
-				screen.blit(py.transform.scale(el["preview"], (self._vars["characterSelector"]["characterContainerSize"] - self._properties["characterContainerList"]["previewSpace"] * 2, self._vars["characterSelector"]["characterContainerSize"] - self._properties["characterContainerList"]["previewSpace"] * 2)), (self._properties["characterContainerList"]["previewSpace"] + (elI % self._vars["characterSelector"]["charactersPerLine"]) * (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) + self._properties["characterContainerList"]["space"], self._properties["characterContainerList"]["previewSpace"] + self._properties["alphaClip"]["height"] + self._vars["scrollY"] + self._properties["characterContainerList"]["space"] + (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) * (elI//self._vars["characterSelector"]["charactersPerLine"])))
+				screen.blit(ui.CharacterContainer(self._vars["characterSelector"]["characterContainerSize"], self._vars["characterSelector"]["characterContainerSize"], (elI == self._vars["characterSelector"]["selectedCharacter"]), el["preview"]), ((elI % self._vars["characterSelector"]["charactersPerLine"]) * (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) + self._properties["characterContainerList"]["space"], self._properties["alphaClip"]["height"] + self._vars["scrollY"] + self._properties["characterContainerList"]["space"] + (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) * (elI//self._vars["characterSelector"]["charactersPerLine"])))
+			else:
+				screen.blit(ui.CharacterContainer(self._vars["characterSelector"]["characterContainerSize"], self._vars["characterSelector"]["characterContainerSize"], (elI == self._vars["characterSelector"]["selectedCharacter"])), (self._properties["characterContainerList"]["previewSpace"] + (elI % self._vars["characterSelector"]["charactersPerLine"]) * (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) + self._properties["characterContainerList"]["space"], self._properties["characterContainerList"]["previewSpace"] + self._properties["alphaClip"]["height"] + self._vars["scrollY"] + self._properties["characterContainerList"]["space"] + (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) * (elI//self._vars["characterSelector"]["charactersPerLine"])))
 
 		# Character Selector
-		screen.blit(ui.CharacterContainerSelector(self._vars["characterSelector"]["characterContainerSize"], self._vars["characterSelector"]["characterContainerSize"]), ((self._vars["characterSelector"]["selectedCharacter"] % self._vars["characterSelector"]["charactersPerLine"]) * (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) + self._properties["characterContainerList"]["space"], self._properties["alphaClip"]["height"] + self._vars["scrollY"] + self._properties["characterContainerList"]["space"] + (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) * (self._vars["characterSelector"]["selectedCharacter"]//self._vars["characterSelector"]["charactersPerLine"])))
-
 		textSurface, textRect = self._font.render(self._vars["characters"][self._vars["characterSelector"]["selectedCharacter"]]["name"], (255, 255, 255))
 		screen.blit(textSurface, ( int((self._vars["characterSelector"]["selectedCharacter"] % self._vars["characterSelector"]["charactersPerLine"]) * (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) + self._properties["characterContainerList"]["space"] + self._vars["characterSelector"]["characterContainerSize"] / 2 - textRect.width / 2), int(self._properties["alphaClip"]["height"] + self._vars["scrollY"] + self._properties["characterContainerList"]["space"] + self._vars["characterSelector"]["characterContainerSize"] + (self._vars["characterSelector"]["characterContainerSize"] + self._properties["characterContainerList"]["space"] * 2) * (self._vars["characterSelector"]["selectedCharacter"]//self._vars["characterSelector"]["charactersPerLine"]) + self._properties["characterContainerList"]["textSpace"])))
 
